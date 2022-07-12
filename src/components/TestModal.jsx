@@ -1,6 +1,19 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+const questions = [
+	'test1',
+	'test2',
+	'test3',
+	'test4',
+	'test5',
+	'test6',
+	'test7',
+	'test8',
+	'test9',
+	'test10',
+]
+
 const TestModal = () => {
 	const modal = useRef()
 	const [stage, setStage] = useState(0)
@@ -8,23 +21,9 @@ const TestModal = () => {
 
 	const { t } = useTranslation()
 
-	const q = [
-		t('test1'),
-		t('test2'),
-		t('test3'),
-		t('test4'),
-		t('test5'),
-		t('test6'),
-		t('test7'),
-		t('test8'),
-		t('test9'),
-		t('test10'),
-	]
-
 	const useOnClickOutside = (ref, handler) => {
 		useEffect(() => {
 			const listener = (event) => {
-				// Ничего не делаю, если клик по элементу ref или его потомкам
 				if (!ref.current || ref.current.contains(event.target)) {
 					return
 				}
@@ -46,8 +45,8 @@ const TestModal = () => {
 		document.body.classList.remove('modal-opened')
 	)
 
-	const clickYes = () => {
-		setPoints(points + 1)
+	const chooseAnswer = (yes) => {
+		yes && setPoints(points + 1)
 		setStage(stage + 1)
 	}
 
@@ -88,18 +87,18 @@ const TestModal = () => {
 								<p>{generateResult()}</p>
 							</>
 						) : (
-							q[stage]
+							t(questions[stage])
 						)}
 					</p>
 				</div>
-				{stage && stage != q.length ? (
+				{stage && stage != questions.length ? (
 					<div className="test-btns">
-						<button className="primary-btn" onClick={clickYes}>
+						<button className="primary-btn" onClick={() => chooseAnswer(true)}>
 							{t('yes')}
 						</button>
 						<button
 							className="primary-btn"
-							onClick={() => setStage(stage + 1)}
+							onClick={() => chooseAnswer(false)}
 						>
 							{t('no')}
 						</button>

@@ -4,7 +4,7 @@ import { Parallax } from 'react-parallax'
 import Footer from '../components/Footer'
 import Preview from '../components/Preview'
 
-const Page2 = (props) => {
+const Results = (props) => {
 	const openTextModal = (text) => {
 		document.body.classList.add('text-modal-opened')
 		props.setModal(text)
@@ -246,4 +246,4 @@ const Page2 = (props) => {
 	)
 }
 
-export default Page2
+export default Results

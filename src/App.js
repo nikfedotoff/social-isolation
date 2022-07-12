@@ -1,27 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './App.scss'
-import Footer from './components/Footer'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
-import FAQ from './pages/FAQ'
-import Home from './pages/Home'
-import Page2 from './pages/Page2'
-import Page3 from './pages/Page3'
-import Page4 from './pages/Page4'
-import Contact from './pages/Contact'
-
-import useWindowSize from './hooks/useWindowSize'
 import Menu from './components/Menu'
-import { BrowserRouter, Route, Switch, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import TestModal from './components/TestModal'
-import Interview from './pages/Interview'
-import Sources from './pages/Sources'
 import Modal from './components/Modal'
 import { useTranslation } from 'react-i18next'
-import Recs from './pages/Recs'
+import Router from './components/Router'
 
 const App = (props) => {
+	const { i18n } = useTranslation()
 	const [menu, setMenu] = useState(false)
+	const [modal, setModal] = useState('')
 
 	useEffect(() => {
 		menu
@@ -29,10 +20,8 @@ const App = (props) => {
 			: document.body.classList.remove('opened-menu')
 	}, [menu])
 
-	const size = useWindowSize()
 	const app = useRef()
 	const scrollContainer = useRef()
-
 	const secondaryCursor = React.useRef(null)
 	const mainCursor = React.useRef(null)
 	const positionRef = React.useRef({
@@ -45,7 +34,7 @@ const App = (props) => {
 		key: -1,
 	})
 
-	React.useEffect(() => {
+	useEffect(() => {
 		document.addEventListener('mousemove', (event) => {
 			if (secondaryCursor.current.style.opacity == 0) {
 				secondaryCursor.current.style.opacity = 1
@@ -68,7 +57,7 @@ const App = (props) => {
 		return () => {}
 	}, [])
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const followMouse = () => {
 			positionRef.current.key = requestAnimationFrame(followMouse)
 			const {
@@ -106,9 +95,6 @@ const App = (props) => {
 		window.scrollTo(0, 0)
 	}, [props.location.pathname])
 
-	const [modal, setModal] = useState('')
-
-	const { t, i18n } = useTranslation()
 	const switchLang = (lang) => {
 		i18n.changeLanguage(lang)
 	}
@@ -116,13 +102,23 @@ const App = (props) => {
 	return (
 		<div ref={app} className="App">
 			<div ref={scrollContainer} className="scroll">
-				<Header setMenu={setMenu} menu={menu} />
+				<Header
+					setMenu={setMenu}
+					menu={menu}
+				/>
 				<Sidebar />
-				<Menu setState={setMenu} state={menu} />
+				<Menu
+					setState={setMenu}
+					state={menu}
+				/>
 				<div className="langs">
-					<button onClick={() => switchLang('ru')}>ru</button>
+					<button onClick={() => switchLang('ru')}>
+						ru
+					</button>
 					&nbsp;&nbsp;
-					<button onClick={() => switchLang('en')}>en</button>
+					<button onClick={() => switchLang('en')}>
+						en
+					</button>
 				</div>
 				<TestModal />
 				<div className="cursor" ref={mainCursor}></div>
@@ -143,35 +139,7 @@ const App = (props) => {
 				</div>
 				<Modal text={modal} />
 				<div className="grain"></div>
-				<Switch>
-					<Route path="/" exact>
-						<Home />
-					</Route>
-					<Route path="/mission">
-						<Page4 />
-					</Route>
-					<Route path="/methods">
-						<Page3 />
-					</Route>
-					<Route path="/results">
-						<Page2 setModal={setModal} />
-					</Route>
-					<Route path="/help">
-						<Recs setModal={setModal} />
-					</Route>
-					<Route path="/survey">
-						<FAQ />
-					</Route>
-					<Route path="/interview">
-						<Interview />
-					</Route>
-					<Route path="/contact">
-						<Contact />
-					</Route>
-					<Route path="*">
-						<Home />
-					</Route>
-				</Switch>
+				<Router setModal={setModal} />
 			</div>
 		</div>
 	)

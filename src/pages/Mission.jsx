@@ -4,7 +4,7 @@ import Preview from '../components/Preview'
 import { Parallax } from 'react-parallax'
 import { useTranslation } from 'react-i18next'
 
-const Page4 = () => {
+const Mission = () => {
 	const { t } = useTranslation()
 
 	return (
@@ -61,4 +61,4 @@ const Page4 = () => {
 	)
 }
 
-export default Page4
+export default Mission

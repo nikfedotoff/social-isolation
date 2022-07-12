@@ -4,7 +4,7 @@ import Preview from '../components/Preview'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
-const Page3 = () => {
+const Methods = () => {
 	const { t } = useTranslation()
 
 	return (
@@ -96,4 +96,4 @@ const Page3 = () => {
 	)
 }
 
-export default Page3
+export default Methods
